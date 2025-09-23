@@ -1,0 +1,113 @@
+// ================================================================
+// SCSS Миксин: font-face
+// ================================================================
+// Универсальный миксин для подключения любых шрифтов:
+// - Static fonts (woff, woff2, ttf, otf)
+// - Variable fonts (woff2-variations)
+// - Локальные шрифты через local()
+// - Подключение через Google Fonts API
+// - Поддержка fallback-шрифтов
+// - Поддержка subset/unicode-range
+// - Смарт font-display с дефолтным значением
+//
+// Все параметры необязательные, кроме $family. 
+// Используйте именованные аргументы для гибкости.
+// ================================================================
+
+@mixin font-face(
+  $family,                    // [String] Имя шрифта
+  $file: null,                 // [String] Имя файла без расширения
+  $path: "",                   // [String] Путь к файлам
+  $format: "woff2",            // [String] Формат файла (woff2 по умолчанию)
+  $weight: null,               // [String|Number] Вес шрифта (100-900, normal, bold, или диапазон "100 900")
+  $style: null,                // [String] Стиль шрифта (normal, italic, oblique)
+  $stretch: null,              // [String|Number] Ширина шрифта (normal, condensed, expanded, %, диапазон)
+  $unicode-range: null,        // [String] Диапазон Unicode
+  $variable: false,            // [Bool] true = variable font (woff2-variations)
+  $display: null,              // [String] font-display (смарт-логика)
+  $fallback: null,             // [String] fallback шрифт, например sans-serif
+  $local: null,                // [String] локальное имя шрифта
+  $google: false,              // [Bool] true = подключение через Google Fonts API
+  $subset: null                // [String] subset шрифта (latin, cyrillic, greek)
+) {
+
+  // ================================================================
+  // Автоматическое добавление unicode-range при subset
+  // ================================================================
+  @if $unicode-range == null and $subset != null {
+    @if $subset == "latin" {
+      $unicode-range: "U+0000-00FF, U+0100-017F, U+0180-024F, U+1E00-1EFF";
+    } @else if $subset == "cyrillic" {
+      $unicode-range: "U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F";
+    } @else if $subset == "greek" {
+      $unicode-range: "U+0370-03FF, U+1F00-1FFF";
+    }
+  }
+
+  // ================================================================
+  // Подключение через Google Fonts API
+  // ================================================================
+  @if $google == true {
+    $url: "https://fonts.googleapis.com/css2?family=" + str-replace($family, " ", "+");
+
+    @if $weight != null {
+      $url: $url + ":wght@" + $weight;
+    }
+
+    @if $display != null {
+      $url: $url + "&display=" + $display;
+    }
+
+    @if $subset != null {
+      $url: $url + "&subset=" + $subset;
+    }
+
+    @import url("#{$url}");
+
+  } @else {
+    // ================================================================
+    // Локальное подключение через @font-face
+    // ================================================================
+    @font-face {
+      font-family: quote($family);
+
+      src: 
+        @if $local != null {
+          local("#{$local}"), 
+        } "";
+
+        @if $variable == true {
+          url("#{$path}#{$file}.#{$format}") format("woff2-variations")
+        } @else {
+          url("#{$path}#{$file}.#{$format}") format("#{$format}")
+        };
+
+      @if $weight != null {
+        font-weight: #{$weight};
+      }
+
+      @if $style != null {
+        font-style: #{$style};
+      }
+
+      @if $stretch != null {
+        font-stretch: #{$stretch};
+      }
+
+      @if $unicode-range != null {
+        unicode-range: #{$unicode-range};
+      }
+
+      // Смарт font-display: приоритет $display → $font-display-default → swap
+      font-display: if(
+        $display != null,
+        $display,
+        if(variable-exists(font-display-default), $font-display-default, swap)
+      );
+
+      @if $fallback != null {
+        font-family: quote($family), #{$fallback};
+      }
+    }
+  }
+}
