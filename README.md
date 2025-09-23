@@ -22,9 +22,49 @@
 
 ## 🔹 Использование миксина
 - Минимальный вызов
+
+```scss
+@include font-face("Roboto", "roboto-regular");
+```
 - Локальный шрифт с fallback
+
+```scss
+@include font-face(
+  $family: "Roboto Flex",
+  $file: "roboto-flex",
+  $path: "/fonts/",
+  $weight: "100 1000",
+  $stretch: "75% 125%",
+  $variable: true,
+  $fallback: sans-serif,
+  $local: "Roboto Flex Local",
+  $subset: latin
+);
+```
+
 - Подключение Google Fonts
+
+```scss
+@include font-face(
+  $family: "Open Sans",
+  $weight: "400;700",
+  $display: swap,
+  $google: true,
+  $subset: cyrillic
+);
+```
+
 - Variable font без subset
+
+```scss
+@include font-face(
+  $family: "Lato Variable",
+  $file: "lato-variable",
+  $weight: "200 900",
+  $stretch: "80% 120%",
+  $variable: true
+);
+```
 
 ## 🔹 Параметры миксина
 
@@ -55,6 +95,30 @@
 6. Variable fonts с диапазонами weight и stretch
 
 ## 🔹 Примеры
+
+```scss
+// Google Font с subset и display
+@include font-face(
+  $family: "Roboto",
+  $weight: "400;700",
+  $display: swap,
+  $google: true,
+  $subset: cyrillic
+);
+
+// Локальный variable font с fallback и subset
+@include font-face(
+  $family: "Roboto Flex",
+  $file: "roboto-flex",
+  $path: "/fonts/",
+  $weight: "100 1000",
+  $stretch: "75% 125%",
+  $variable: true,
+  $fallback: sans-serif,
+  $local: "Roboto Flex Local",
+  $subset: latin
+);
+```
 
 ## 🔹 Лицензия
 
