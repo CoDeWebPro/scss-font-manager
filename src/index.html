@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCSS Font-Face Mixin - Тест</title>
+    <link rel="stylesheet" href="/scss/main.scss">
+</head>
+
+<body>
+    <div class="container">
+        <h1>SCSS Font-Face Mixin - Тестирование</h1>
+
+        <div class="font-test">
+            <h2>Google Fonts - Roboto (Cyrillic)</h2>
+            <div class="font-roboto sample-text">
+                <p class="weight-400">Это тестовый текст на шрифте Roboto Regular (400). Проверяем поддержку кириллицы и
+                    качество рендеринга.</p>
+                <p class="weight-700">Это тестовый текст на шрифте Roboto Bold (700). Жирное начертание для заголовков и
+                    акцентов.</p>
+            </div>
+        </div>
+
+        <div class="font-test">
+            <h2>Google Fonts - Open Sans (Latin)</h2>
+            <div class="font-open-sans sample-text">
+                <p class="weight-300">This is Open Sans Light (300) - perfect for body text and long reading.</p>
+                <p class="weight-400">This is Open Sans Regular (400) - standard weight for most content.</p>
+                <p class="weight-600">This is Open Sans SemiBold (600) - great for subheadings and emphasis.</p>
+                <p class="weight-700">This is Open Sans Bold (700) - strong weight for headlines and important text.</p>
+            </div>
+        </div>
+
+        <div class="font-test">
+            <h2>Локальный шрифт (симуляция)</h2>
+            <div class="font-custom sample-text">
+                <p>Этот текст использует локальный шрифт "Custom Font" с fallback на sans-serif. В реальном проекте
+                    здесь был бы подключен локальный файл шрифта.</p>
+            </div>
+            <div class="code-block">
+                @include font-face(
+                $family: "Custom Font",
+                $file: "custom-font",
+                $path: "/fonts/",
+                $weight: "400",
+                $style: "normal",
+                $fallback: sans-serif,
+                $local: "Custom Font Local"
+                );
+            </div>
+        </div>
+
+        <div class="font-test">
+            <h2>Variable Font (симуляция)</h2>
+            <div class="font-variable sample-text">
+                <p class="weight-400 stretch-100">Variable Font Regular (400) - нормальная ширина</p>
+                <p class="weight-400 stretch-75">Variable Font Condensed (75%) - сжатый вариант</p>
+                <p class="weight-400 stretch-125">Variable Font Expanded (125%) - расширенный вариант</p>
+                <p class="weight-700 stretch-100">Variable Font Bold (700) - жирное начертание</p>
+            </div>
+            <div class="code-block">
+                @include font-face(
+                $family: "Variable Font",
+                $file: "variable-font",
+                $path: "/fonts/",
+                $weight: "100 900",
+                $stretch: "75% 125%",
+                $variable: true,
+                $fallback: sans-serif,
+                $subset: latin
+                );
+            </div>
+        </div>
+
+        <div class="font-test">
+            <h2>Проверка font-display</h2>
+            <p>Откройте DevTools → Network → перезагрузите страницу, чтобы увидеть как загружаются шрифты с
+                font-display: swap</p>
+            <div class="code-block">
+                // В DevTools вы увидите:
+                // font-display: swap; // для Google Fonts
+                // font-display: swap; // для локальных шрифтов (из $font-display-default)
+            </div>
+        </div>
+
+        <div class="font-test">
+            <h2>Проверка unicode-range</h2>
+            <p>В DevTools → Elements найдите @font-face правила и проверьте unicode-range для разных subset:</p>
+            <div class="code-block">
+                // Roboto (cyrillic):
+                unicode-range: U+0400-04FF, U+0500-052F, U+2DE0-2DFF, U+A640-A69F;
+
+                // Open Sans (latin):
+                unicode-range: U+0000-00FF, U+0100-017F, U+0180-024F, U+1E00-1EFF;
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

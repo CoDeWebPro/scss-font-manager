@@ -1,0 +1,142 @@
+// Импорт миксина
+@use "../../_font-face.scss" as *;
+
+// Глобальные переменные
+$font-display-default: swap;
+
+// Тестовые шрифты
+@include font-face($family: "Roboto", $weight: "400;700", $display: swap, $google: true, $subset: cyrillic);
+
+@include font-face($family: "Open Sans", $weight: "300;400;600;700", $display: swap, $google: true, $subset: latin);
+
+// Локальный шрифт (симуляция)
+@include font-face(
+    $family: "Custom Font",
+    $file: "custom-font",
+    $path: "/fonts/",
+    $weight: "400",
+    $style: "normal",
+    $fallback: sans-serif,
+    $local: "Custom Font Local"
+);
+
+// Variable font (симуляция)
+@include font-face(
+    $family: "Variable Font",
+    $file: "variable-font",
+    $path: "/fonts/",
+    $weight: "100 900",
+    $stretch: "75% 125%",
+    $variable: true,
+    $fallback: sans-serif,
+    $subset: latin
+);
+
+// Базовые стили
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Open Sans", sans-serif;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #34495e;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #7f8c8d;
+}
+
+.font-test {
+    background: white;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.font-roboto {
+    font-family: "Roboto", sans-serif;
+}
+
+.font-open-sans {
+    font-family: "Open Sans", sans-serif;
+}
+
+.font-custom {
+    font-family: "Custom Font", sans-serif;
+}
+
+.font-variable {
+    font-family: "Variable Font", sans-serif;
+}
+
+.weight-300 {
+    font-weight: 300;
+}
+.weight-400 {
+    font-weight: 400;
+}
+.weight-600 {
+    font-weight: 600;
+}
+.weight-700 {
+    font-weight: 700;
+}
+
+.stretch-75 {
+    font-stretch: 75%;
+}
+.stretch-100 {
+    font-stretch: 100%;
+}
+.stretch-125 {
+    font-stretch: 125%;
+}
+
+.sample-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin: 1rem 0;
+}
+
+.code-block {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 1rem;
+    font-family: "Courier New", monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
